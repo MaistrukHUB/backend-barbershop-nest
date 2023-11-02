@@ -40,4 +40,9 @@ export class ProductsService {
     if (!allProduct) throw new BadRequestException(AppError.PRODUCTS_NOT_EXIST)
     return allProduct
   }
+
+  async updateProduct(id: string, dto: ProductDTO): Promise<ProductDTO> {
+    await this.productRepository.update(dto, { where: { id } });
+    return dto;
+  }
 }
