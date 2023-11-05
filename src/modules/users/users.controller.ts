@@ -24,14 +24,13 @@ export class UserController {
     @Req() request,
   ): Promise<UpdateUserDTO> {
     const user = request.user;
-    console.log(request);
     return this.userService.updateUser(user.email, updateDto);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete()
-  deleteUser(@Req() request) {
+  deleteUser(@Req() request):Promise<boolean> {
     const user = request.user;
-    return this.userService.deleteUsers(user.email);
+    return this.userService.deleteUsers(user);
   }
 }

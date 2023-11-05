@@ -11,7 +11,7 @@ import {
 import { ProductsService } from './products.service';
 import { ProductDTO } from './dto';
 import { JwtAdminGuard } from 'src/guards/role-guard';
-import { Product } from './model/product.model';
+import { Product } from './models/product.model';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('products')
@@ -20,9 +20,15 @@ export class ProductsController {
 
   @ApiTags('API')
   @ApiResponse({ status: 200, type: Product, isArray: true })
-  @Get()
+  @Get('get-all')
   getAll(): Promise<Product[]> {
     return this.productsService.getAllProduct();
+  }
+  @ApiTags('API')
+  @ApiResponse({ status: 200, type: Product })
+  @Get('get/:id')
+  getProduct(@Param('id') id: string) {
+    return this.productsService.getProduct(id);
   }
 
   @ApiTags('API')

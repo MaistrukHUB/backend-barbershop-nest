@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductDTO } from './dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { Product } from './model/product.model';
+import { Product } from './models/product.model';
 import { AppError } from 'src/common/errors/errors';
 
 @Injectable()
@@ -28,21 +28,46 @@ export class ProductsService {
   }
 
   async deleteProduct(id: string): Promise<boolean> {
-    const existProduct = await this.findProductById(id);
-    if (!existProduct)
-      throw new BadRequestException(AppError.PRODUCT_NOT_EXIST);
-    await this.productRepository.destroy({ where: { id } });
-    return true;
+    try {
+      const existProduct = await this.findProductById(id);
+      if (!existProduct)
+        throw new BadRequestException(AppError.PRODUCT_NOT_EXIST);
+      await this.productRepository.destroy({ where: { id } });
+      return true;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async getAllProduct(): Promise<Product[]> {
-    const allProduct = this.productRepository.findAll();
-    if (!allProduct) throw new BadRequestException(AppError.PRODUCTS_NOT_EXIST)
-    return allProduct
+    try {
+      const allProduct = await this.productRepository.findAll();
+      if (!allProduct)
+        throw new BadRequestException(AppError.PRODUCTS_NOT_EXIST);
+      return allProduct;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  async getProduct(id: string): Promise<Product> {
+    try {
+      return await this.findProductById(id);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
   async updateProduct(id: string, dto: ProductDTO): Promise<ProductDTO> {
-    await this.productRepository.update(dto, { where: { id } });
-    return dto;
+    try {
+      const checkProductExist = await this.productRepository.findOne({
+        where: { id },
+      });
+      if (!checkProductExist)
+        throw new BadRequestException(AppError.PRODUCT_ID_NOT_EXIST);
+      await this.productRepository.update(dto, { where: { id } });
+      return dto;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
