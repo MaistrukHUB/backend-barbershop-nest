@@ -8,8 +8,12 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from '../users/models/user.model';
 import { AuthModule } from '../auth/auth.module';
 import { TokenModule } from '../token/token.module';
-import { Product } from 'src/products/model/product.model';
-import { ProductsModule } from 'src/products/products.module';
+import { Product } from '../products/models/product.model';
+import { Cart } from '../cart/models/cart.model';
+import { CartProduct } from '../cartProduct/models/cartProduct.model';
+import { ProductsModule } from '../products/products.module';
+import { CartModule } from '../cart/cart.module';
+import { CartProductModule } from '../cartProduct/cartProduct.module';
 
 @Module({
   imports: [
@@ -29,13 +33,15 @@ import { ProductsModule } from 'src/products/products.module';
         database: configService.get('db_name'),
         synchronize: true,
         autoLoadModels: true,
-        models: [User, Product],
+        models: [User, Product, Cart, CartProduct],
       }),
     }),
     UserModule,
     AuthModule,
     TokenModule,
     ProductsModule,
+    CartModule,
+    CartProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
