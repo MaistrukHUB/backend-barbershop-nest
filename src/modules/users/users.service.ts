@@ -75,7 +75,6 @@ export class UserService {
 
   async deleteUsers(user: User): Promise<boolean> {
     try {
-      await this.cartRepository.deleteUserCarts(user.id)
       await this.userRepository.destroy({ where: { email: user.email } });
       return true;
     } catch (error) {

@@ -51,7 +51,9 @@ export class ProductsService {
   }
   async getProduct(id: string): Promise<Product> {
     try {
-      return await this.findProductById(id);
+      const product = await this.findProductById(id);
+      if(!product) throw new BadRequestException(AppError.PRODUCT_ID_NOT_EXIST)
+      return product
     } catch (error) {
       throw new Error(error);
     }

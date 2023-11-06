@@ -40,12 +40,4 @@ export class CartProductService {
       throw new Error(error);
     }
   }
-  async deleteCartProduct(idCart: string): Promise<boolean> {
-    try {
-      await this.cartProductRepository.destroy({ where: { cart: idCart } });
-      return true;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
 }
