@@ -22,6 +22,9 @@ export class User extends Model {
   })
   role: string;
 
-  @HasMany(() => Cart)
+  @HasMany(() => Cart, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   cart: Cart[];
 }

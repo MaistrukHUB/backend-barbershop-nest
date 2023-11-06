@@ -45,20 +45,7 @@ export class CartService {
     try {
       const existProduct = await this.findCartById(id);
       if (!existProduct) throw new BadRequestException(AppError.CART_NOT_EXIST);
-      await this.cartProductService.deleteCartProduct(id);
       await this.cartRepository.destroy({ where: { id } });
-      return true;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-  async deleteUserCarts(id): Promise<boolean> {
-    try {
-      const carts = await this.cartRepository.findAll({ where: { user: id } });
-      for (const cart of carts) {
-        this.cartProductService.deleteCartProduct(cart.id);
-      }
-      await this.cartRepository.destroy({ where: { user: id } });
       return true;
     } catch (error) {
       throw new Error(error);
