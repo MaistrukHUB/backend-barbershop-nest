@@ -11,11 +11,11 @@ import { UpdateUserDTO } from './dto';
 import { JwtAuthGuard } from '../../guards/jwt-guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('API')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @ApiTags('API')
   @ApiResponse({ status: 200, type: UpdateUserDTO })
   @UseGuards(JwtAuthGuard)
   @Patch()
@@ -27,9 +27,10 @@ export class UserController {
     return this.userService.updateUser(user.email, updateDto);
   }
 
+  @ApiResponse({ status: 200, type: Boolean })
   @UseGuards(JwtAuthGuard)
   @Delete()
-  deleteUser(@Req() request):Promise<boolean> {
+  deleteUser(@Req() request): Promise<boolean> {
     const user = request.user;
     return this.userService.deleteUsers(user);
   }

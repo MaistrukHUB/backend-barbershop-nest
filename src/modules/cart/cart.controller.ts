@@ -14,11 +14,11 @@ import { JwtAuthGuard } from 'src/guards/jwt-guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Cart } from './models/cart.model';
 
+@ApiTags('API')
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  @ApiTags('API')
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 201, type: Cart })
   @Post('create')
@@ -30,7 +30,6 @@ export class CartController {
     return this.cartService.createCart(cartProductDTO, user);
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 201, type: Boolean })
   @UseGuards(JwtAuthGuard)
   @Delete('delete/:id')
@@ -38,7 +37,6 @@ export class CartController {
     return this.cartService.deleteCart(id);
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 201, type: Boolean })
   @UseGuards(JwtAuthGuard)
   @Get('get-all')
@@ -47,7 +45,6 @@ export class CartController {
     return this.cartService.getAll(user);
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 201, type: Boolean })
   @UseGuards(JwtAuthGuard)
   @Get('get-cart/:id')

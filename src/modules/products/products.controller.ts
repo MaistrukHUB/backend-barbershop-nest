@@ -14,24 +14,22 @@ import { JwtAdminGuard } from 'src/guards/role-guard';
 import { Product } from './models/product.model';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('API')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @ApiTags('API')
   @ApiResponse({ status: 200, type: Product, isArray: true })
   @Get('get-all')
   getAll(): Promise<Product[]> {
     return this.productsService.getAllProduct();
   }
-  @ApiTags('API')
   @ApiResponse({ status: 200, type: Product })
   @Get('get/:id')
   getProduct(@Param('id') id: string) {
     return this.productsService.getProduct(id);
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 200, type: ProductDTO })
   @UseGuards(JwtAdminGuard)
   @Post('create')
@@ -39,7 +37,6 @@ export class ProductsController {
     return this.productsService.createProduct(productDTO);
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 201, type: Boolean })
   @UseGuards(JwtAdminGuard)
   @Delete(':id')
@@ -47,7 +44,6 @@ export class ProductsController {
     return this.productsService.deleteProduct(id);
   }
 
-  @ApiTags('API')
   @ApiResponse({ status: 200, type: ProductDTO })
   @UseGuards(JwtAdminGuard)
   @Patch(':id')
