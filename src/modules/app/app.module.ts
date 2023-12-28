@@ -14,6 +14,10 @@ import { CartProduct } from '../cartProduct/models/cartProduct.model';
 import { ProductsModule } from '../products/products.module';
 import { CartModule } from '../cart/cart.module';
 import { CartProductModule } from '../cartProduct/cartProduct.module';
+import { Price } from '../price/models';
+import { PriceModule } from '../price/price.module';
+import { Team } from '../team/models';
+import { TeamModule } from '../team/team.module';
 
 @Module({
   imports: [
@@ -24,8 +28,9 @@ import { CartProductModule } from '../cartProduct/cartProduct.module';
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: async (configService: ConfigService) => ({
         dialect: 'postgres',
+        dialectModule: require('pg'),
         host: configService.get('db_host'),
         port: configService.get('db_port'),
         username: configService.get('db_user'),
@@ -33,7 +38,7 @@ import { CartProductModule } from '../cartProduct/cartProduct.module';
         database: configService.get('db_name'),
         synchronize: true,
         autoLoadModels: true,
-        models: [User, Product, Cart, CartProduct],
+        models: [User, Product, Cart, CartProduct, Price, Team],
       }),
     }),
     UserModule,
@@ -42,6 +47,8 @@ import { CartProductModule } from '../cartProduct/cartProduct.module';
     ProductsModule,
     CartModule,
     CartProductModule,
+    PriceModule,
+    TeamModule,
   ],
   controllers: [AppController],
   providers: [AppService],

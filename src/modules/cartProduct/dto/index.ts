@@ -1,11 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, IsArray, IsEnum } from 'class-validator';
-
+import { IsString, IsNumber, IsArray, IsEnum, IsUrl } from 'class-validator';
 
 export class CartProductDTO {
-
-  @ApiProperty({ example: 'product.jpg', description: 'Шлях до зображення товару' })
+  @ApiProperty({
+    example: 'Category Name',
+    description: 'id продукту в корзині',
+  })
   @IsString()
+  idCartProduct: string;
+
+  @ApiProperty({ example: 'Category Name', description: 'id продукту ' })
+  @IsString()
+  idProduct: string;
+
+  @ApiProperty({
+    example: 'product.jpg',
+    description: 'Шлях до зображення товару',
+  })
+  @IsUrl({}, { message: 'Неправильний формат посилання для img' })
   img: string;
 
   @ApiProperty({ example: 'Product Name', description: 'Назва товару' })
@@ -14,7 +26,7 @@ export class CartProductDTO {
 
   @ApiProperty({ example: 'Category Name', description: 'Назва категорії' })
   @IsString()
-  category: string;
+  type: string;
 
   @ApiProperty({ example: 0.5, description: 'Кількість товару' })
   @IsNumber()

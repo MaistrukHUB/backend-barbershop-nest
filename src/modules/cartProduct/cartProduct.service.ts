@@ -22,9 +22,11 @@ export class CartProductService {
       for (const product of cartProductDTO) {
         const newCartProduct = {
           cart: dataCart.id,
+          idCartProduct: product.idCartProduct,
+          idProduct: product.idProduct,
           img: product.img,
           name: product.name,
-          category: product.category,
+          type: product.type,
           extent: product.extent,
           count: product.count,
           cost: product.cost,

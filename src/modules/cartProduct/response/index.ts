@@ -12,11 +12,19 @@ export class CreateCartProductResponse {
 
   @ApiProperty()
   @IsString()
+  idCartProduct: string;
+
+  @ApiProperty()
+  @IsString()
+  idProduct: string;
+
+  @ApiProperty()
+  @IsString()
   name: string;
 
   @ApiProperty()
   @IsString()
-  category: string;
+  type: string;
 
   @ApiProperty()
   @IsNumber()

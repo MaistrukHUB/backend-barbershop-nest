@@ -34,7 +34,10 @@ export class UserService {
         role: dto.role ? dto.role : (dto.role = 'user'),
       });
       return dto;
-    } catch (error) {
+    }catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }
@@ -57,7 +60,10 @@ export class UserService {
           },
         ],
       });
-    } catch (error) {
+    }catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }
@@ -68,7 +74,10 @@ export class UserService {
       if (!checkUser) throw new BadRequestException(AppError.USER_NOT_EXIST);
       await this.userRepository.update(dto, { where: { email } });
       return dto;
-    } catch (error) {
+    }catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }
@@ -77,7 +86,10 @@ export class UserService {
     try {
       await this.userRepository.destroy({ where: { email: user.email } });
       return true;
-    } catch (error) {
+    }catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }

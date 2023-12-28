@@ -13,13 +13,19 @@ export class CartProduct extends Model {
   cart: Cart;
 
   @Column
+  idCartProduct: string;
+
+  @Column
+  idProduct: string;
+
+  @Column
   img: string;
 
   @Column
   name: string;
 
   @Column
-  category: string;
+  type: string;
 
   @Column
   extent: number;

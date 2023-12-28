@@ -20,6 +20,6 @@ export class Product extends Model<Product> {
   @Column(DataType.ARRAY(DataType.INTEGER))
   extent: number[];
 
-  @Column(DataType.ARRAY(DataType.STRING))
-  img: string[];
+  @Column
+  img: string;
 }

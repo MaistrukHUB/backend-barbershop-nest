@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { ProductDTO } from './dto';
@@ -20,10 +21,13 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @ApiResponse({ status: 200, type: Product, isArray: true })
-  @Get('get-all')
-  getAll(): Promise<Product[]> {
-    return this.productsService.getAllProduct();
+  @Post('get-all')
+  getAll(@Body() param: any) {
+    console.log(param);
+    const { selectedCategory, searchValue } = param;
+    return this.productsService.getAllProduct(selectedCategory, searchValue);
   }
+
   @ApiResponse({ status: 200, type: Product })
   @Get('get/:id')
   getProduct(@Param('id') id: string) {
@@ -33,7 +37,9 @@ export class ProductsController {
   @ApiResponse({ status: 200, type: ProductDTO })
   @UseGuards(JwtAdminGuard)
   @Post('create')
-  create(@Body() productDTO: ProductDTO): Promise<ProductDTO> {
+  create(@Body() productDTO: ProductDTO, @Req() request): Promise<ProductDTO> {
+    const user = request.user;
+    console.log(user);
     return this.productsService.createProduct(productDTO);
   }
 
@@ -49,8 +55,8 @@ export class ProductsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() ProductDTO: ProductDTO,
+    @Body() productDTO: ProductDTO,
   ): Promise<ProductDTO> {
-    return this.productsService.updateProduct(id, ProductDTO);
+    return this.productsService.updateProduct(id, productDTO);
   }
 }

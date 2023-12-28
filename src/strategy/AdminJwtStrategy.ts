@@ -15,7 +15,7 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
   }
 
   async validate(payload: any) {
-    const user = payload.user;
+    const user ={ ...payload.publicUser};
     if (user.role === 'admin') {
       return { ...payload.user };
     } else {

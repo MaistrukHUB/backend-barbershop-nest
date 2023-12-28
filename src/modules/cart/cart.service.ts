@@ -37,6 +37,9 @@ export class CartService {
       if (!cart) throw new BadRequestException(AppError.WRONG_ADDED_CART);
       return cart;
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }
@@ -48,6 +51,9 @@ export class CartService {
       await this.cartRepository.destroy({ where: { id } });
       return true;
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }
@@ -66,6 +72,9 @@ export class CartService {
       if (!allCart) throw new BadRequestException(AppError.USER_NOT_HAVE_CART);
       return allCart;
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }
@@ -84,6 +93,9 @@ export class CartService {
       if (!cart) throw new BadRequestException(AppError.CART_NOT_EXIST);
       return cart;
     } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
       throw new Error(error);
     }
   }

@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber, IsArray, IsEnum } from 'class-validator';
+import { IsString, IsNumber, IsArray, IsEnum, IsUrl } from 'class-validator';
 
 enum ProductType {
   hair = 'hair',
   beard = 'beard',
   shave = 'shave',
   certificate = 'certificate',
+  toothpaste = 'toothpaste',
 }
 
 export class ProductDTO {
@@ -34,6 +35,6 @@ export class ProductDTO {
   about: string;
 
   @ApiProperty()
-  @IsArray()
-  img: string[];
+  @IsUrl({}, { message: 'Недійсний формат посилання для Img ' })
+  img: string;
 }
